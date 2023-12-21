@@ -196,7 +196,7 @@ public class CompressionTest {
     }
 
     @Test
-    void singleSeparatorCharacter() {
+    void singleSeparatorCharacterTest() {
         String input = Character.toString(DELIM);
         String expected = "1" + DELIM + DELIM;
         String actual = NeatCompressor.compress(input);

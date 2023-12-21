@@ -1,5 +1,7 @@
 package org.github.zkkv;
 
+import java.util.Arrays;
+
 public class NeatCompressor {
 
     private NeatCompressor() { };
@@ -38,9 +40,41 @@ public class NeatCompressor {
 
         if (compressed.length() == 0) return "";
 
-        for (int r = 1; r < compressed.length(); r++) {
+        if (compressed.length() < 3) throw new IllegalArgumentException("Incorrect input string format.");
 
+        StringBuilder numBuilder = new StringBuilder();
+        StringBuilder result = new StringBuilder();
+        boolean hasDecompressed = false;
+
+        for (int i = 0; i < compressed.length(); i++) {
+            char c = compressed.charAt(i);
+            if (c >= '0' && c <= '9') {
+                numBuilder.append(c);
+                hasDecompressed = false;
+            } else {
+                if (c != DELIM) {
+                    throw new IllegalArgumentException("Incorrect input string format.");
+                }
+
+                int count = Integer.parseInt(numBuilder.toString());
+                numBuilder.setLength(0);
+                char[] temp = new char[count];
+
+                i++;
+                if (i == compressed.length()) {
+                    throw new IllegalArgumentException("Incorrect input string format.");
+                }
+
+                Arrays.fill(temp, compressed.charAt(i));
+                result.append(temp);
+                hasDecompressed = true;
+            }
         }
-        return null;
+
+        if (!hasDecompressed) {
+            throw new IllegalArgumentException("Incorrect input string format.");
+        }
+
+        return result.toString();
     }
 }
