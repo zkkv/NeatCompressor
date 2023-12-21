@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DecompressionTest {
 
-    private static final char SEPARATOR = NeatCompressor.SEPARATOR;
+    private static final char DELIM = NeatCompressor.DELIM;
 
     @Test
     void decompressNull() {
