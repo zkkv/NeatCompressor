@@ -156,19 +156,19 @@ public class DecompressionTest {
         assertEquals(expected, actual);
     }
 
-    /*@Test
+    @Test
     void largeStringTest() {
         // This test might not pass because of reading from file. Ignore it then.
-        String input = null;
+        String expected = null;
         try {
-            input = Files.readString(Paths.get("src/test/resources/largeString.txt"));
+            expected = Files.readString(Paths.get("src/test/resources/largeString.txt"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        String expected = "1100000" + DELIM + "A";
+        String input = "1100000" + DELIM + "A";
         String actual = NeatCompressor.decompress(input);
         assertEquals(expected, actual);
-    }*/
+    }
 
     @Test
     void mixedDigitsTest() {
@@ -257,4 +257,9 @@ public class DecompressionTest {
         assertThrows(IllegalArgumentException.class, () -> NeatCompressor.decompress(input));
     }
 
+    @Test
+    void delimsOnlyExceptionTest() {
+        String input = Character.toString(DELIM) + DELIM + DELIM + DELIM;
+        assertThrows(IllegalArgumentException.class, () -> NeatCompressor.decompress(input));
+    }
 }
