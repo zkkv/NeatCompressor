@@ -13,7 +13,7 @@ repositories {
 }
 
 application {
-    mainClass.set("com.github.zkkv.Main")
+    mainClass.set("org.github.zkkv.Main")
 }
 
 checkstyle {
