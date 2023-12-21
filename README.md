@@ -18,7 +18,7 @@ gradlew build
 Alternatively, use an IDE in which you can execute Gradle `build` configuration.
 
 ## How to Run
-Similarly to `build`, execute `run`. You can also execute `test` to see all unit tests passing.
+Similarly to `build`, execute `run`. You can also execute `test` and see the testing report under `build/reports/tests/test/index.html`
 
 ## Developer
 Developed by zkkv, 12/2023
