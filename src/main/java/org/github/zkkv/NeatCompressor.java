@@ -4,7 +4,8 @@ public class NeatCompressor {
 
     private NeatCompressor() { };
 
-    public final static char SEPARATOR = (char) 0;
+    //public final static char SEPARATOR = (char) 0;
+    public final static char SEPARATOR = '?';
 
     public static String compress(final String uncompressed) {
         if (uncompressed == null) throw new IllegalArgumentException("Input string cannot be null");
@@ -16,23 +17,24 @@ public class NeatCompressor {
         int r = 1;
 
         StringBuilder result = new StringBuilder();
-        result.append(uncompressed.charAt(l));
+        //result.append(uncompressed.charAt(l));
         int counter = 1;
 
         while (r < N) {
             if (uncompressed.charAt(l) == uncompressed.charAt(r)) {
                 counter++;
             } else {
-                result.append(SEPARATOR);
                 result.append(counter);
-                result.append(uncompressed.charAt(r));
+                result.append(SEPARATOR);
+                result.append(uncompressed.charAt(l));
                 counter = 1;
                 l = r;
             }
             r++;
         }
-        result.append(SEPARATOR);
         result.append(counter);
+        result.append(SEPARATOR);
+        result.append(uncompressed.charAt(l));
 
         return result.toString();
     }

@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CompressionTest {
 
     private static final char SEPARATOR = NeatCompressor.SEPARATOR;
+    //private static final char SEPARATOR = (char)0;
 
     @Test
     void nullStringTest() {
@@ -60,7 +61,7 @@ public class CompressionTest {
     @Test
     void fourSameCharactersTest() {
         String input = "AAAA";
-        String expected = "A" + SEPARATOR + "4";
+        String expected = "4" + SEPARATOR + "A";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -76,10 +77,10 @@ public class CompressionTest {
     @Test
     void fourDifferentCharactersTest() {
         String input = "ABCD";
-        String expected = "A" + SEPARATOR + "1"
-                + "B" + SEPARATOR + "1"
-                + "C" + SEPARATOR + "1"
-                + "D" + SEPARATOR + "1";
+        String expected = "1" + SEPARATOR + "A"
+                + "1" + SEPARATOR + "B"
+                + "1" + SEPARATOR + "C"
+                + "1" + SEPARATOR + "D";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -87,10 +88,10 @@ public class CompressionTest {
     @Test
     void increasingFrequencyTest() {
         String input = "ABBBCCCCDDDDDD";
-        String expected = "A" + SEPARATOR + "1"
-                + "B" + SEPARATOR + "3"
-                + "C" + SEPARATOR + "4"
-                + "D" + SEPARATOR + "6";
+        String expected = "1" + SEPARATOR + "A"
+                + "3" + SEPARATOR + "B"
+                + "4" + SEPARATOR + "C"
+                + "6" + SEPARATOR + "D";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -98,10 +99,10 @@ public class CompressionTest {
     @Test
     void decreasingFrequencyTest() {
         String input = "AAAAAAABBBBBCCCDD";
-        String expected = "A" + SEPARATOR + "7"
-                + "B" + SEPARATOR + "5"
-                + "C" + SEPARATOR + "3"
-                + "D" + SEPARATOR + "2";
+        String expected = "7" + SEPARATOR + "A"
+                + "5" + SEPARATOR + "B"
+                + "3" + SEPARATOR + "C"
+                + "2" + SEPARATOR + "D";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -109,10 +110,10 @@ public class CompressionTest {
     @Test
     void sameFrequencyGroupedTogetherTest() {
         String input = "AAAABBBBCCCCDDDD";
-        String expected = "A" + SEPARATOR + "4"
-                + "B" + SEPARATOR + "4"
-                + "C" + SEPARATOR + "4"
-                + "D" + SEPARATOR + "4";
+        String expected = "4" + SEPARATOR + "A"
+                + "4" + SEPARATOR + "B"
+                + "4" + SEPARATOR + "C"
+                + "4" + SEPARATOR + "D";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -120,9 +121,9 @@ public class CompressionTest {
     @Test
     void sandwichedLettersTest() {
         String input = "ABBA";
-        String expected = "A" + SEPARATOR + "1"
-                + "B" + SEPARATOR + "2"
-                + "A" + SEPARATOR + "1";
+        String expected = "1" + SEPARATOR + "A"
+                + "2" + SEPARATOR + "B"
+                + "1" + SEPARATOR + "A";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -130,12 +131,12 @@ public class CompressionTest {
     @Test
     void alternatingLettersTest() {
         String input = "ABABAB";
-        String expected = "A" + SEPARATOR + "1"
-                + "B" + SEPARATOR + "1"
-                + "A" + SEPARATOR + "1"
-                + "B" + SEPARATOR + "1"
-                + "A" + SEPARATOR + "1"
-                + "B" + SEPARATOR + "1";
+        String expected = "1" + SEPARATOR + "A"
+                + "1" + SEPARATOR + "B"
+                + "1" + SEPARATOR + "A"
+                + "1" + SEPARATOR + "B"
+                + "1" + SEPARATOR + "A"
+                + "1" + SEPARATOR + "B";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -143,14 +144,14 @@ public class CompressionTest {
     @Test
     void mixedLetterStringTest() {
         String input = "ABFMMMABAM";
-        String expected = "A" + SEPARATOR + "1"
-                + "B" + SEPARATOR + "1"
-                + "F" + SEPARATOR + "1"
-                + "M" + SEPARATOR + "3"
-                + "A" + SEPARATOR + "1"
-                + "B" + SEPARATOR + "1"
-                + "A" + SEPARATOR + "1"
-                + "M" + SEPARATOR + "1";
+        String expected = "1" + SEPARATOR + "A"
+                + "1" + SEPARATOR + "B"
+                + "1" + SEPARATOR + "F"
+                + "3" + SEPARATOR + "M"
+                + "1" + SEPARATOR + "A"
+                + "1" + SEPARATOR + "B"
+                + "1" + SEPARATOR + "A"
+                + "1" + SEPARATOR + "M";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -164,7 +165,46 @@ public class CompressionTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        String expected = "A" + SEPARATOR + "1100000";
+        String expected = "1100000" + SEPARATOR + "A";
+        String actual = NeatCompressor.compress(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void mixedDigitsTest() {
+        String input = "1899282225";
+        String expected = "1" + SEPARATOR + "1"
+                + "1" + SEPARATOR + "8"
+                + "2" + SEPARATOR + "9"
+                + "1" + SEPARATOR + "2"
+                + "1" + SEPARATOR + "8"
+                + "3" + SEPARATOR + "2"
+                + "1" + SEPARATOR + "5";
+        String actual = NeatCompressor.compress(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void largeConsecutiveSequenceOfDigitsTest() {
+        String input = "83333333333333333317";
+        String expected = "1" + SEPARATOR + "8"
+                + "17" + SEPARATOR + "3"
+                + "1" + SEPARATOR + "1"
+                + "1" + SEPARATOR + "7";
+        String actual = NeatCompressor.compress(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void stringWithSeparatorCharactersTest() {
+        String input = SEPARATOR + "AAB" + SEPARATOR + SEPARATOR + "BAB";
+        String expected = "1" + SEPARATOR + SEPARATOR
+                + "2" + SEPARATOR + "A"
+                + "1" + SEPARATOR + "B"
+                + "2" + SEPARATOR + SEPARATOR
+                + "1" + SEPARATOR + "B"
+                + "1" + SEPARATOR + "A"
+                + "1" + SEPARATOR + "B";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
