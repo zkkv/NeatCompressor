@@ -9,7 +9,7 @@ public class NeatCompressor {
     public static String compress(final String uncompressed) {
         if (uncompressed == null) throw new IllegalArgumentException("Input string cannot be null");
 
-        if (uncompressed.length() <= 3) return uncompressed;
+        if (uncompressed.length() == 0) return "";
 
         StringBuilder result = new StringBuilder();
         int l = 0;
@@ -36,6 +36,11 @@ public class NeatCompressor {
     public static String decompress(final String compressed) {
         if (compressed == null) throw new IllegalArgumentException("Input string cannot be null");
 
-        return "";
+        if (compressed.length() == 0) return "";
+
+        for (int r = 1; r < compressed.length(); r++) {
+
+        }
+        return null;
     }
 }

@@ -28,7 +28,7 @@ public class CompressionTest {
     @Test
     void singleLetterTest() {
         String input = "A";
-        String expected = "A";
+        String expected = "1" + DELIM + "A";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -52,15 +52,16 @@ public class CompressionTest {
     @Test
     void twoSameCharactersTest() {
         String input = "AA";
-        String expected = "AA";
+        String expected = "2" + DELIM + "A";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
 
     @Test
-    void threeSameCharactersTest() {
-        String input = "AAA";
-        String expected = "AAA";
+    void twoDifferentCharactersTest() {
+        String input = "AB";
+        String expected = "1" + DELIM + "A"
+                + "1" + DELIM + "B";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -69,14 +70,6 @@ public class CompressionTest {
     void fourSameCharactersTest() {
         String input = "AAAA";
         String expected = "4" + DELIM + "A";
-        String actual = NeatCompressor.compress(input);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void threeDifferentCharactersTest() {
-        String input = "ABC";
-        String expected = "ABC";
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
@@ -198,6 +191,14 @@ public class CompressionTest {
                 + "17" + DELIM + "3"
                 + "1" + DELIM + "1"
                 + "1" + DELIM + "7";
+        String actual = NeatCompressor.compress(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void singleSeparatorCharacter() {
+        String input = Character.toString(DELIM);
+        String expected = "1" + DELIM + DELIM;
         String actual = NeatCompressor.compress(input);
         assertEquals(expected, actual);
     }
