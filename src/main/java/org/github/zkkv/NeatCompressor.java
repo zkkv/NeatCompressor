@@ -42,28 +42,35 @@ public class NeatCompressor {
 
         if (compressed.length() < 3) throw new IllegalArgumentException("Incorrect input string format.");
 
-        StringBuilder numBuilder = new StringBuilder();
+        /*
+            I initially used another approach for "building" the number, namely, with StringBuilder.
+            I think that would probably be much slower than using num (i.e. what I'm doing now).
+            Maybe overflow can be easily detected that way, however a single 4 billion characters
+            compressed string sounds unlikely.
+         */
+        // StringBuilder numBuilder = new StringBuilder();
+        int num = 0;
+
         StringBuilder result = new StringBuilder();
         boolean hasDecompressed = false;
 
         for (int i = 0; i < compressed.length(); i++) {
             char c = compressed.charAt(i);
             if (c >= '0' && c <= '9') {
-                numBuilder.append(c);
+                // numBuilder.append(c);
+                num = num * 10 + (c - '0');
                 hasDecompressed = false;
             } else {
-                if (c != DELIM) {
+                if (c != DELIM || num == 0 || ++i == compressed.length()) {
                     throw new IllegalArgumentException("Incorrect input string format.");
                 }
 
-                int count = Integer.parseInt(numBuilder.toString());
-                numBuilder.setLength(0);
-                char[] temp = new char[count];
+                // int count = Integer.parseInt(numBuilder.toString());
+                // numBuilder.setLength(0);
+                // char[] temp = new char[count];
 
-                i++;
-                if (i == compressed.length()) {
-                    throw new IllegalArgumentException("Incorrect input string format.");
-                }
+                char[] temp = new char[num];
+                num = 0;
 
                 Arrays.fill(temp, compressed.charAt(i));
                 result.append(temp);
