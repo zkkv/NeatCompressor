@@ -18,7 +18,7 @@ gradlew build
 Alternatively, use an IDE in which you can execute Gradle `build` configuration.
 
 ## How to Run
-Similarly to `build`, execute `run`. By default, no functions are called, so you can modify `Main` class if needed. You can also execute `test` and see the testing report under `build/reports/tests/test/index.html`.
+Similarly to `build`, execute `run`. By default, no functions are called, so you can modify `Main` class if needed. You can also execute `test` and see the testing report under `build/reports/tests/test/index.html`. JaCoCo coverage report is generated under `build/reports/jacoco/test/html/index.html`. 
 
 ## Developer
 Developed by zkkv, 12/2023
